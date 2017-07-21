@@ -20,17 +20,17 @@ describe('Directive: fsPercentage', () => {
 
   it('should be valid for values between 0 and 1', function() {
     element.val(0);
-    $(element).blur();
+    element.triggerHandler('blur');
     scope.$digest();
     expect(scope.myForm.myInput.$valid).toBeTruthy();
 
     element.val(0.5);
-    $(element).blur();
+    element.triggerHandler('blur');
     scope.$digest();
     expect(scope.myForm.myInput.$valid).toBeTruthy();
 
     element.val(1);
-    $(element[0][0]).blur();
+    element.triggerHandler('blur');
     scope.$digest();
     expect(scope.myForm.myInput.$valid).toBeTruthy();
   });
