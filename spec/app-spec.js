@@ -5,7 +5,7 @@ describe('Directive: fsPercentage', () => {
 
   beforeEach(module('fsApp'));
 
-  beforeEach(inject(function($rootScope, $compile) {
+  beforeEach(inject(function($compile, $rootScope) {
     scope = $rootScope.$new();
     element = angular.element(
       `<form name="myForm">
@@ -20,22 +20,19 @@ describe('Directive: fsPercentage', () => {
 
   it('should be valid for values between 0 and 1', function() {
     element.val(0);
-    element.triggerHandler('blur');
+    $(element).blur();
     scope.$digest();
     expect(scope.myForm.myInput.$valid).toBeTruthy();
-    console.log('value at a: ', element.val());
 
     element.val(0.5);
-    element.triggerHandler('blur');
+    $(element).blur();
     scope.$digest();
     expect(scope.myForm.myInput.$valid).toBeTruthy();
-    console.log('value at b: ', element.val());
 
     element.val(1);
-    element.triggerHandler('blur');
+    $(element[0][0]).blur();
     scope.$digest();
     expect(scope.myForm.myInput.$valid).toBeTruthy();
-    console.log('value at c: ', element.val());
   });
 
   it('should be invalid for values less than 0 or more than 1', function() {
