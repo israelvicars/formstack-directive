@@ -1,9 +1,9 @@
-describe('Controller: MainCtrl', function() {
-  var scope,
-  MainCtrl,
-  serviceMock;
+describe('Controller: FsCtrl', () => {
+  let scope;
+  let FsCtrl;
+  let serviceMock;
 
-  beforeEach(module('myApp'));
+  beforeEach(module('fsApp'));
 
   serviceMock = {
     collection: [7, 9, 42],
@@ -14,18 +14,18 @@ describe('Controller: MainCtrl', function() {
     function ($controller, $rootScope) {
       scope = $rootScope.$new();
 
-      MainCtrl = $controller('MainCtrl', {
+      FsCtrl = $controller('FsCtrl', {
         $scope: scope,
-        myService: serviceMock
+        fsService: serviceMock,
       });
 
       scope.$apply();
-    }
+    },
   ));
 
-  it('mocks the service used in the controller', function() {
-    expect(MainCtrl.myObject).toEqual([7,9,42]);
-    expect(MainCtrl.myFavoriteValue).toBe(42);
+  it('mocks the service used in the controller', () => {
+    expect(FsCtrl.myObject).toEqual([7,9,42]);
+    expect(FsCtrl.myFavoriteValue).toBe(42);
   });
 
 });
