@@ -1,16 +1,27 @@
 const fsApp = angular.module('fsApp',[]);
 
-fsApp.controller('FsPercentageCtrl', ['$scope', function($scope) {
-  $scope.percentageValid = $scope.percentageInput >= 0
-    && $scope.percentageInput <= 1;
-
-  $scope.percentageOutput = $scope.percentageValid ?
-    `${Math.round(100 * $scope.percentageInput)}%` : '';
-}]);
-
-fsApp.directive('fsPercentage', ['FsPercentageCtrl', function(FsPercentageCtrl) {
+fsApp.directive('fsPercentage', function() {
   return {
-    controller: FsPercentageCtrl,
-    template: '',
+  	restrict: 'A',
+    require: 'ngModel',
+    link: function(scope, element, attrs, modelCtrl) {
+      function percentageValidation(value) {
+        const valid = (value >= 0 && value <= 1);
+
+        modelCtrl.$setValidity('percentage', valid);
+
+        return value;
+      }
+
+      modelCtrl.$parsers.push(percentageValidation);
+
+      const input = attrs.ngModel;
+
+      scope.$watch(attrs.ngModel, (value) => {
+      	if (value >= 0 && value <= 1) {
+      		element.on("blur", () => element.val(`${Math.round(100 * value)}%`));
+      	}
+      });
+    },
   };
-}]);
+});
