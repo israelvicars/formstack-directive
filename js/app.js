@@ -1,32 +1,16 @@
 const fsApp = angular.module('fsApp',[]);
 
-fsApp.factory('fsService', function() {
-  const service = {};
+fsApp.controller('FsPercentageCtrl', ['$scope', function($scope) {
+  $scope.percentageValid = $scope.percentageInput >= 0
+    && $scope.percentageInput <= 1;
 
-  service.collection = ["A","B","C"];
-  service.value = "A";
+  $scope.percentageOutput = $scope.percentageValid ?
+    `${Math.round(100 * $scope.percentageInput)}%` : '';
+}]);
 
-  return service;
-});
-
-fsApp.controller('FsCtrl', function(fsService) {
-  const controller = {};
-
-  controller.myObject = fsService.collection;
-  controller.myFavoriteValue = fsService.value;
-
-  return controller;;
-});
-
-fsApp.directive('fsPercentage', function() {
+fsApp.directive('fsPercentage', ['FsPercentageCtrl', function(FsPercentageCtrl) {
   return {
-    controller: ['$scope', function FsPercentageController($scope) {
-      $scope.percentageValid = $scope.percentageInput >= 0
-        && $scope.percentageInput <= 1;
-
-      $scope.percentageOutput = $scope.percentageValid ?
-        `${Math.round(100 * $scope.percentageInput)}%` : '';
-    }],
+    controller: FsPercentageCtrl,
     template: '',
   };
-});
+}]);
