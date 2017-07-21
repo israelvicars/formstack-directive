@@ -1,7 +1,7 @@
-describe('Controller: MainCtrl', () => {
-  let scope;
-  let MainCtrl;
-  let serviceMock;
+describe('Controller: MainCtrl', function() {
+  var scope,
+  MainCtrl,
+  serviceMock;
 
   beforeEach(module('myApp'));
 
@@ -11,7 +11,7 @@ describe('Controller: MainCtrl', () => {
   };
 
   beforeEach(inject(
-    ($controller, $rootScope) => {
+    function ($controller, $rootScope) {
       scope = $rootScope.$new();
 
       MainCtrl = $controller('MainCtrl', {
@@ -23,7 +23,7 @@ describe('Controller: MainCtrl', () => {
     }
   ));
 
-  it('mocks the service used in the controller', () => {
+  it('mocks the service used in the controller', function() {
     expect(MainCtrl.myObject).toEqual([7,9,42]);
     expect(MainCtrl.myFavoriteValue).toBe(42);
   });

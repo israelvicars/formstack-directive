@@ -1,19 +1,20 @@
-const myApp = angular.module('myApp',[]);
+var myApp = angular.module('myApp',[]);
 
-myApp.factory('myService', () => {
-  const service = {};
+myApp.factory('myService', function () {
+  var service = {};
 
   service.collection = ["A","B","C"];
+
   service.value = "A";
 
   return service;
 });
 
-myApp.controller('MainCtrl', (myService) => {
-  const controller = {};
+myApp.controller('MainCtrl', function (myService) {
+  var controller = {};
 
   controller.myObject = myService.collection;
   controller.myFavoriteValue = myService.value;
 
-  return controller;
+  return controller;;
 });
