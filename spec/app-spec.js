@@ -1,31 +1,17 @@
 describe('Controller: FsCtrl', () => {
-  let scope;
-  let FsCtrl;
-  let serviceMock;
+  let ngController;
 
   beforeEach(module('fsApp'));
 
-  serviceMock = {
-    collection: [7, 9, 42],
-    value: 42
-  };
+  beforeEach(inject(function ($controller) {
+      ngController = $controller;
+  }));
 
-  beforeEach(inject(
-    function ($controller, $rootScope) {
-      scope = $rootScope.$new();
+  it('displays a percentage from a float', () => {
+    const percentageInput = 0.5;
+    const $scope = { percentageInput };
+    const controller = ngController('FsPercentageCtrl', { $scope });
 
-      FsCtrl = $controller('FsCtrl', {
-        $scope: scope,
-        fsService: serviceMock,
-      });
-
-      scope.$apply();
-    },
-  ));
-
-  it('mocks the service used in the controller', () => {
-    expect(FsCtrl.myObject).toEqual([7,9,42]);
-    expect(FsCtrl.myFavoriteValue).toBe(42);
+    expect($scope.percentageOutput).toEqual('50%');
   });
-
 });
