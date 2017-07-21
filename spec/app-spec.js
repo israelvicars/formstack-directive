@@ -1,36 +1,50 @@
-describe('Controller: FsPercentageCtrl', () => {
-  let ngController;
+describe('Directive: fsPercentage', () => {
+  let element;
+  let scope;
+  let ngModel;
 
   beforeEach(module('fsApp'));
 
-  beforeEach(inject(function ($controller) {
-    ngController = $controller;
+  beforeEach(inject(function($rootScope, $compile) {
+    scope = $rootScope.$new();
+    element = angular.element(
+      `<form name="myForm">
+        <input name="myInput" ng-model="myInput" required fs-percentage>
+      </form>`,
+    );
+
+    const input = $compile(element)(scope);
+
+    ngModel = input.controller('ngModel');
   }));
 
-  it('returns valid and returns a percentage from a valid float input', () => {
-    const percentageInput = 0.5;
-    const $scope = { percentageInput };
-    const controller = ngController('FsPercentageCtrl', { $scope });
+  it('should be valid for values between 0 and 1', function() {
+    element.val(0);
+    element.triggerHandler('blur');
+    scope.$digest();
+    expect(scope.myForm.myInput.$valid).toBeTruthy();
+    console.log('value at a: ', element.val());
 
-    expect($scope.percentageValid).toBe(true);
-    expect($scope.percentageOutput).toEqual('50%');
+    element.val(0.5);
+    element.triggerHandler('blur');
+    scope.$digest();
+    expect(scope.myForm.myInput.$valid).toBeTruthy();
+    console.log('value at b: ', element.val());
+
+    element.val(1);
+    element.triggerHandler('blur');
+    scope.$digest();
+    expect(scope.myForm.myInput.$valid).toBeTruthy();
+    console.log('value at c: ', element.val());
   });
 
-  it('returns invalid and returns no percentage if input is below 0', () => {
-    const percentageInput = -1.0;
-    const $scope = { percentageInput };
-    const controller = ngController('FsPercentageCtrl', { $scope });
+  it('should be invalid for values less than 0 or more than 1', function() {
+    element.val(-1);
+    scope.$digest();
+    expect(scope.myForm.myInput.$valid).toBeFalsy();
 
-    expect($scope.percentageValid).toBe(false);
-    expect($scope.percentageOutput).toEqual('');
-  });
-
-  it('returns invalid and returns no percentage if input is above 1', () => {
-    const percentageInput = 2.0;
-    const $scope = { percentageInput };
-    const controller = ngController('FsPercentageCtrl', { $scope });
-
-    expect($scope.percentageValid).toBe(false);
-    expect($scope.percentageOutput).toEqual('');
+    element.val(2);
+    scope.$digest();
+    expect(scope.myForm.myInput.$valid).toBeFalsy();
   });
 });
